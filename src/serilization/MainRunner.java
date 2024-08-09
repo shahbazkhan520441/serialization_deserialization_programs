@@ -3,44 +3,38 @@ package serilization;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class MainRunner {
 
+
 	public static void main(String[] args) {
+		List<Student> students = new ArrayList<>();
+		students.add(new Student(1, "John Doe", 20, "123 Main St"));
+		students.add(new Student(2, "Jane Smith", 21, "456 Oak St"));
+		students.add(new Student(3, "Mark Brown", 22, "789 Pine St"));
 
-		Scanner sc=new Scanner(System.in);
-		System.out.println("enter student id");
-		int id=sc.nextInt();
-		System.out.println("inter student name");
-		String studentName=sc.next();
-		System.out.println("enter student age");
-		int age=sc.nextInt();
-		System.out.println("enter student address");
-		String address=sc.next();
+		try (FileOutputStream fout = new FileOutputStream("C:\\javaworkspace\\serilization__deserilization\\serilization.txt");
+				ObjectOutputStream oout = new ObjectOutputStream(fout)) {
 
-		Student s =new Student(id, studentName, age, address);	
+			for (Student student : students) {
+				oout.writeObject(student);
+			}
 
-		try {
-			
-			FileOutputStream fout=new FileOutputStream("C:\\javaworkspace\\serilization__deserilization\\serilization.txt");
-			ObjectOutputStream out=new ObjectOutputStream(fout);
-            
-			out.writeObject(s);
-
-			out.flush();
-			fout.flush();
-			out.close();
-			fout.close();
-			
-			System.out.println("serilization of object has done sucessfully");
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+		System.out.println("Serialization complete.");
 	}
 
 
 
+
 }
+
+
+
+
